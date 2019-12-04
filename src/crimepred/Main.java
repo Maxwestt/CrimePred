@@ -7,8 +7,6 @@ Developed by:
  */
 package crimepred;
 
-import java.util.*;
-
 public class Main extends javax.swing.JFrame {
 
     

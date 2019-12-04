@@ -3,7 +3,7 @@ Developed for:
 
 Developed by:
  - M.M.A. van de Westelaken, E10809004, m.m.a.v.d.westelaken@student.tue.nl
- - Christopher Clauss, E..., ...
+ - Christopher Clauss, E10801019, chclit00@hs-esslingen.de
  */
 package crimepred;
 

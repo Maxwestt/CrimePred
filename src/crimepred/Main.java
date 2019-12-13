@@ -8,11 +8,12 @@ Developed by:
 package crimepred;
 
 public class Main extends javax.swing.JFrame {
-
-    //TEST
+    
+    static mapPanel mp;
     
     public Main() {
         initComponents();
+        run();
     }
 
     /**
@@ -25,7 +26,8 @@ public class Main extends javax.swing.JFrame {
     private void initComponents() {
 
         levelSpinner = new javax.swing.JSpinner();
-        mapPanel = new javax.swing.JPanel();
+        mapPanel1 = new crimepred.mapPanel();
+        jFrame1 = new javax.swing.JFrame();
         pointPanel = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -35,25 +37,35 @@ public class Main extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         daySpinner = new javax.swing.JSpinner();
+        mapPanel2 = new crimepred.mapPanel();
 
         levelSpinner.setModel(new javax.swing.SpinnerNumberModel(1, 1, 10, 1));
         levelSpinner.setEnabled(false);
         levelSpinner.setFocusable(false);
 
+        javax.swing.GroupLayout mapPanel1Layout = new javax.swing.GroupLayout(mapPanel1);
+        mapPanel1.setLayout(mapPanel1Layout);
+        mapPanel1Layout.setHorizontalGroup(
+            mapPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+        mapPanel1Layout.setVerticalGroup(
+            mapPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+
+        javax.swing.GroupLayout jFrame1Layout = new javax.swing.GroupLayout(jFrame1.getContentPane());
+        jFrame1.getContentPane().setLayout(jFrame1Layout);
+        jFrame1Layout.setHorizontalGroup(
+            jFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 400, Short.MAX_VALUE)
+        );
+        jFrame1Layout.setVerticalGroup(
+            jFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 300, Short.MAX_VALUE)
+        );
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        mapPanel.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 3, true));
-
-        javax.swing.GroupLayout mapPanelLayout = new javax.swing.GroupLayout(mapPanel);
-        mapPanel.setLayout(mapPanelLayout);
-        mapPanelLayout.setHorizontalGroup(
-            mapPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        mapPanelLayout.setVerticalGroup(
-            mapPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 327, Short.MAX_VALUE)
-        );
 
         pointPanel.setBackground(new java.awt.Color(255, 255, 255));
         pointPanel.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 3, true));
@@ -133,7 +145,20 @@ public class Main extends javax.swing.JFrame {
                     .addComponent(daySpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(19, 19, 19)
                 .addComponent(jLabel6)
-                .addContainerGap(27, Short.MAX_VALUE))
+                .addContainerGap(15, Short.MAX_VALUE))
+        );
+
+        mapPanel2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 3, true));
+
+        javax.swing.GroupLayout mapPanel2Layout = new javax.swing.GroupLayout(mapPanel2);
+        mapPanel2.setLayout(mapPanel2Layout);
+        mapPanel2Layout.setHorizontalGroup(
+            mapPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        mapPanel2Layout.setVerticalGroup(
+            mapPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 339, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -143,19 +168,19 @@ public class Main extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(mapPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(pointPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(mapPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(mapPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(mapPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(pointPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -194,15 +219,20 @@ public class Main extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Main().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new Main().setVisible(true);
         });
+    }
+    
+    public void run(){
+        mp = new mapPanel();
+        mapPanel2 = mp;
+        mapPanel2.yeet();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JSpinner daySpinner;
+    private javax.swing.JFrame jFrame1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -211,7 +241,8 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JSpinner levelSpinner;
-    private javax.swing.JPanel mapPanel;
+    private crimepred.mapPanel mapPanel1;
+    private crimepred.mapPanel mapPanel2;
     private javax.swing.JPanel pointPanel;
     // End of variables declaration//GEN-END:variables
 }

@@ -227,7 +227,6 @@ public class Main extends javax.swing.JFrame {
     public void run(){
         mp = new mapPanel();
         mapPanel2 = mp;
-        mapPanel2.yeet();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

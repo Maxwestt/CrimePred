@@ -7,6 +7,7 @@ Developed by:
  */
 package crimepred;
 
+import java.awt.image.BufferedImage;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -21,7 +22,6 @@ public class Main extends javax.swing.JFrame {
     
     double minLat;
     double maxLat;
-    
     double minLong;
     double maxLong;
     
@@ -43,15 +43,32 @@ public class Main extends javax.swing.JFrame {
                 minute = (int) mSpinner.getValue();
             }
         });
+        minLat = -118.0;
+        maxLat = -120.0;
+        minLong = 33.0;
+        maxLong = 35.0;
+        
         run();
     }
     
     public void run(){
         mp = new mapPanel();
         mapPanel2 = mp;
+        BufferedImage mi = mapPanel2.mapImage;
+        mpWidth = mi.getWidth();
+        mpHeight = mi.getHeight();
         
-        mpWidth = mapPanel2.getWidth();
-        mpHeight = mapPanel2.getHeight();
+        int[] pix = coorToPx(-119.3243, 33.42);
+        System.out.println(pix[0]);
+        System.out.println(pix[1]);
+        
+        mapPanel2.setCircle1(pix[0], pix[1]);
+        mapPanel2.setCircle2(pix[1], pix[0]);
+        mapPanel2.setCircle3(pix[1], pix[1]);
+        
+        mapPanel2.repaint();
+        
+        System.out.println(pix[0] + " " + pix[1]);
     }
 
     /**
@@ -283,17 +300,21 @@ public class Main extends javax.swing.JFrame {
         });
     }
     
-    public int[] coorToPx(double longi, double lati){
+    public static void makePredictions(){
+        
+    }
+    
+    public int[] coorToPx(double lati, double longi){
         int[] pix = new int[2];
         
         double sizeLat = Math.abs(maxLat - minLat);
         double sizeLong = Math.abs(maxLong - minLong);
         
-        double propLat = Math.abs(maxLat - lati);
-        double propLong = Math.abs(maxLong - longi);
+        double propLat = Math.abs((lati - minLat)/sizeLat);
+        double propLong = Math.abs((longi - minLong)/sizeLong);
         
-        pix[0] = (int) ((propLat/sizeLat) * mpWidth);
-        pix[1] = (int) ((propLong/sizeLong) * mpHeight);
+        pix[1] = (int) (propLong * mpWidth);
+        pix[0] = (int) (propLat * mpHeight);
         
         return pix;
     }

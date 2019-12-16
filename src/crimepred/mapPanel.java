@@ -25,11 +25,14 @@ import javax.swing.JPanel;
  */
 public class mapPanel extends JPanel {
 
-    private BufferedImage mapImage;
+    public BufferedImage mapImage;
     
     public int circle_x1, circle_y1, circle_x2, circle_y2, 
             circle_x3, circle_y3 = 0; 
     public int circle_w, circle_h = 0;
+    
+    public int x1;
+    public int y1;
 
     public mapPanel() {
         String path = "Resources/placeholder.PNG";
@@ -43,22 +46,35 @@ public class mapPanel extends JPanel {
         ii.paintIcon(null, g, 0, 0);
         g.dispose();
         
-        makeCentres();
-        repaint();
+        circle_w = 30;
+        circle_h = 30;
+        
+        //makeCentres();
+        //repaint();
     }
 
     @Override
     protected void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
+        System.out.println("Repainting");
         super.paintComponent(g2);
         g2.drawImage(mapImage, 0, 0, this);
         
         g2.setColor(Color.red);
         g2.setStroke(new BasicStroke(5));
         
-        g2.drawOval(circle_x1, circle_y1, circle_w, circle_h);
+        g2.drawOval(300,200,30,30);
+        
+        System.out.println(x1);
+        System.out.println(y1);
+                
+        g2.drawOval(x1, y1, circle_w, circle_h);
         g2.drawOval(circle_x2, circle_y2, circle_w, circle_h);
         g2.drawOval(circle_x3, circle_y3, circle_w, circle_h);
+    }
+    
+    public void pain(){
+        repaint();
     }
     
     public void makeCentres(){
@@ -87,5 +103,22 @@ public class mapPanel extends JPanel {
         centres[5] = circle_y3;
         
         return centres;
+    }
+    
+    public void setCircle1(int x, int y){
+        x1 = x;
+        y1 = y;
+        
+        System.out.println("In method: " + x1 + " " + y1);
+    }
+    
+    public void setCircle2(int x, int y){
+        circle_x2 = x;
+        circle_y2 = y;
+    }
+    
+    public void setCircle3(int x, int y){
+        circle_x3 = x;
+        circle_y3 = y;
     }
 }

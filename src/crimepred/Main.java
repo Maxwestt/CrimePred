@@ -13,9 +13,17 @@ import javax.swing.event.ChangeListener;
 public class Main extends javax.swing.JFrame {
     
     static mapPanel mp;
+    int mpWidth;
+    int mpHeight;
     
     int hour;
     int minute;
+    
+    double minLat;
+    double maxLat;
+    
+    double minLong;
+    double maxLong;
     
     public Main() {
         initComponents();
@@ -26,7 +34,6 @@ public class Main extends javax.swing.JFrame {
             @Override
             public void stateChanged(ChangeEvent e) {
                 hour = (int) hSpinner.getValue();
-                System.out.println(hour);
             }
         });
         
@@ -34,15 +41,17 @@ public class Main extends javax.swing.JFrame {
             @Override
             public void stateChanged(ChangeEvent e) {
                 minute = (int) mSpinner.getValue();
-                System.out.println(minute);
             }
         });
-        
         run();
+    }
+    
+    public void run(){
+        mp = new mapPanel();
+        mapPanel2 = mp;
         
-        
-        
-        
+        mpWidth = mapPanel2.getWidth();
+        mpHeight = mapPanel2.getHeight();
     }
 
     /**
@@ -272,17 +281,26 @@ public class Main extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(() -> {
             new Main().setVisible(true);
         });
-        
-        
     }
     
-    
-    
-    public void run(){
-        mp = new mapPanel();
-        mapPanel2 = mp;
+    public int[] coorToPx(double longi, double lati){
+        int[] pix = new int[2];
         
+        double sizeLat = Math.abs(maxLat - minLat);
+        double sizeLong = Math.abs(maxLong - minLong);
         
+        double propLat = Math.abs(maxLat - lati);
+        double propLong = Math.abs(maxLong - longi);
+        
+        pix[0] = (int) ((propLat/sizeLat) * mpWidth);
+        pix[1] = (int) ((propLong/sizeLong) * mpHeight);
+        
+        return pix;
+    }
+    
+    public String findClosestAddress(){
+        String address = "";
+        return address;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -306,6 +324,4 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JPanel pointPanel;
     private org.jdatepicker.impl.UtilDateModel utilDateModel1;
     // End of variables declaration//GEN-END:variables
-    
-    
 }

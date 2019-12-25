@@ -8,6 +8,9 @@ Developed by:
 package crimepred;
 
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Map;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -24,6 +27,9 @@ public class Main extends javax.swing.JFrame {
     double maxLat;
     double minLong;
     double maxLong;
+    
+    ArrayList<Record> yearRecords;
+    Date selectedDate;
     
     public Main() {
         initComponents();
@@ -98,6 +104,7 @@ public class Main extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         mSpinner = new javax.swing.JSpinner();
         jDateChooser1 = new com.toedter.calendar.JDateChooser();
+        predButton = new javax.swing.JButton();
         mapPanel2 = new crimepred.mapPanel();
 
         levelSpinner.setModel(new javax.swing.SpinnerNumberModel(1, 1, 10, 1));
@@ -161,7 +168,7 @@ public class Main extends javax.swing.JFrame {
                 .addComponent(jLabel2)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel3)
-                .addContainerGap(50, Short.MAX_VALUE))
+                .addContainerGap(27, Short.MAX_VALUE))
         );
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
@@ -188,6 +195,13 @@ public class Main extends javax.swing.JFrame {
         jDateChooser1.setMaxSelectableDate(new java.util.Date(1514649601000L));
         jDateChooser1.setMinSelectableDate(new java.util.Date(1262275201000L));
 
+        predButton.setText("Predict!");
+        predButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                predButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -201,13 +215,16 @@ public class Main extends javax.swing.JFrame {
                             .addComponent(jLabel7))
                         .addGap(126, 126, 126)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(hSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(hSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(186, 186, 186)
+                                .addComponent(predButton))
                             .addComponent(mSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(25, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -216,10 +233,11 @@ public class Main extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jDateChooser1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 43, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
-                    .addComponent(hSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(hSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(predButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(mSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -227,17 +245,19 @@ public class Main extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        predButton.getAccessibleContext().setAccessibleName("predButton");
+
         mapPanel2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 3, true));
 
         javax.swing.GroupLayout mapPanel2Layout = new javax.swing.GroupLayout(mapPanel2);
         mapPanel2.setLayout(mapPanel2Layout);
         mapPanel2Layout.setHorizontalGroup(
             mapPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 1202, Short.MAX_VALUE)
         );
         mapPanel2Layout.setVerticalGroup(
             mapPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 744, Short.MAX_VALUE)
+            .addGap(0, 743, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -247,7 +267,9 @@ public class Main extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(mapPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(mapPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(pointPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -259,7 +281,7 @@ public class Main extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(mapPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(34, 34, 34)
+                .addGap(19, 19, 19)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(pointPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -268,6 +290,10 @@ public class Main extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void predButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_predButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_predButtonActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -300,9 +326,57 @@ public class Main extends javax.swing.JFrame {
         });
     }
     
+    public static void makeYearRecords(Date date){
+        //Find in the database all the records that are within one year from date
+    }
+    
+    public static void findCentroids(int n){
+        //Find n centroids based on the year of records found in makeYearRecords()
+    }
+    
+    public static void assignClass(){
+        //Assign classes to all records found in makeYearRecords()
+    }
+    
     public static void makePredictions(){
         
     }
+    
+    public static double getEuclidianDistanceRecordCentroid(Record r, Centroid c){
+        double sum = 0;
+        
+        Map<String, Double> rmap = r.getFeat();
+        Map<String, Double> cmap = c.getMap();
+        for(String key : rmap.keySet()){
+            System.out.println(key);
+            Double r1 = rmap.get(key);
+            Double c1 = cmap.get(key);
+            
+            if (r1 != null && c1 != null){
+                sum += Math.pow(r1 - c1, 2);
+            }
+        }
+        
+        return Math.sqrt(sum);
+    }
+    
+    public static double getEuclidianDistanceRecords(Record r1, Record r2 ){
+        double sum = 0;
+        
+        Map<String, Double> r1map = r1.getFeat();
+        Map<String, Double> r2map = r2.getFeat();
+        for(String key : r1map.keySet()){
+            System.out.println(key);
+            Double r1num = r1map.get(key);
+            Double r2num = r2map.get(key);
+            
+            if (r1num != null && r2num != null){
+                sum += Math.pow(r1num - r2num, 2);
+            }
+        }
+        return Math.sqrt(sum);
+    }
+    
     
     public int[] coorToPx(double lati, double longi){
         int[] pix = new int[2];
@@ -343,6 +417,7 @@ public class Main extends javax.swing.JFrame {
     private crimepred.mapPanel mapPanel1;
     private crimepred.mapPanel mapPanel2;
     private javax.swing.JPanel pointPanel;
+    private javax.swing.JButton predButton;
     private org.jdatepicker.impl.UtilDateModel utilDateModel1;
     // End of variables declaration//GEN-END:variables
 }

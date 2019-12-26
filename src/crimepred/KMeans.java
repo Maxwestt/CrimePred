@@ -18,6 +18,10 @@ import static java.util.stream.Collectors.toSet;
 public class KMeans {
 
     private static final Random random = new Random();
+    
+    public KMeans(){
+        System.out.println("yeet");
+    }
 
     public static HashMap<Centroid, ArrayList<Record>> fit(ArrayList<Record> records,
             int k, Distance distance, int maxIterations) {
@@ -28,6 +32,7 @@ public class KMeans {
 
         // iterate for a pre-defined number of times
         for (int i = 0; i < maxIterations; i++) {
+            System.out.println("We are now on iteration: " +  i);
             boolean isLastIteration = i == maxIterations - 1;
 
             // in each iteration we should find the nearest centroid for each record

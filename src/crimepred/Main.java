@@ -7,9 +7,7 @@ Developed by:
  */
 package crimepred;
 
-import java.awt.List;
 import java.awt.image.BufferedImage;
-import static java.lang.Math.random;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -17,7 +15,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
-import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -365,29 +362,63 @@ public class Main extends javax.swing.JFrame {
         //Find in the database all the records that are within one year from date
     }
     
-    
-    
-    public static void findCentroids(int n){
-        //Find n centroids based on the year of records found in makeYearRecords()
-    }
-    
-    public void assignClass(Record record, int i){
-        //Assign classes to all records found in makeYearRecords()
-        record.classNr = i;
-    }
-    
-    public void makePredictions(Centroid c){
-        int classNr = c.classNr;
-        ArrayList<Double> weights = new ArrayList<Double>();
+    public static void setCentroids(ArrayList<Centroid> centroids){
+        KMeans km = new KMeans();
         
-        for(Record record: yearRecords){
-            if (record.classNr == classNr){
-                //Find the "distance in time" to current date --> weight from 0 to 1
-                weights.add(findTimeDistance(c, record));
-                
-                //
+        //records = records of that year
+        //k = number of centers
+        //distance = euclid distance measure
+        //maxIter = maximum iterations
+        
+        
+        //Variable declaration for fitting
+        ArrayList<Record> records = new ArrayList<Record>();
+        int k = 3;
+        EuclideanDistance d = new EuclideanDistance();
+        int maxIter = 10;
+        
+        
+        HashMap<Centroid, ArrayList<Record>> classMap = km.fit(records, 
+                k, d, maxIter);
+    }
+        
+    public void moveCentroids(HashMap<Centroid, ArrayList<Record>> classMap){
+        for(Map.Entry<Centroid, ArrayList<Record>> entry: classMap.entrySet()){
+            Centroid c = entry.getKey();
+            ArrayList<Record> points = entry.getValue();
+            
+            ArrayList<Double> distances = new ArrayList<Double>();
+            
+            for(Record p: points){
+                distances.add(findTimeDistance(c, p));
             }
+            
+            double longMove = 0;
+            double latMove = 0;
+            
+            for(int i = 0; i < points.size(); i++){
+                double d = distances.get(i);
+                Record p = points.get(i);
+                
+                double longDist = Math.abs(p.getFeatures().get("LONGITUDE") 
+                        - c.getCoordinates().get("LONGITUDE")) * d;
+                double latDist = Math.abs(p.getFeatures().get("LATITUDE") 
+                        - c.getCoordinates().get("LATITUDE")) * d;
+                
+                longMove += longDist;
+                latMove += latDist;
+            }
+            
+            System.out.println("latMove for Centroid " + c + " = " + latMove);
+            System.out.println("longMove for Centroid " + c + " = " + longMove);
+            
+            double cLat = c.getCoordinates().get("LATITUDE");
+            c.getCoordinates().put("LATITUDE", cLat + latMove);
+            
+            double cLong = c.getCoordinates().get("LONGITUDE");
+            c.getCoordinates().put("LONGITUDE", cLong + longMove);
         }
+        
     }
     
     public double findTimeDistance(Centroid c, Record r){
@@ -416,8 +447,6 @@ public class Main extends javax.swing.JFrame {
         
         return prob;
     }
-    
-       
     
     public int[] coorToPx(double lati, double longi){
         int[] pix = new int[2];

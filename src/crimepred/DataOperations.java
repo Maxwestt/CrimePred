@@ -18,7 +18,7 @@ import java.util.ArrayList;
 public class DataOperations {
 
     public static void main(String[] args) {
-      //  insertData();
+        //  insertData();
         //  System.out.println(getData(new Date(System.currentTimeMillis())).toString());
 
     }
@@ -27,24 +27,17 @@ public class DataOperations {
 
         ArrayList<Crime> crimeList = new ArrayList<>();
         java.sql.Date begin = new java.sql.Date(date.getTime() - Long.parseLong("31536000000"));
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        //java.sql.date sqlDate = new java.sql.date()
         String sql = "SELECT * From CRIMEDATA where ARREST_DATE  >= ?";
         try {
             Connection connection = DriverManager.getConnection("jdbc:derby://localhost:1527/LACrime");
-            //   Statement statement = connection.createStatement();
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setDate(1, begin);
-            //     ResultSet resultSet = statement.executeQuery(sql);
             ResultSet resultSet = statement.executeQuery();
-            //  System.out.println(sql);
             while (resultSet.next()) {
-
                 crimeList.add(new Crime(resultSet.getDate("ARREST_DATE"), resultSet.getTime("TIME"),
                         resultSet.getInt("REPORTING_DISTRICT"), resultSet.getInt("AGE"), resultSet.getString("SEX_CODE"),
                         resultSet.getString("DESCENT_CODE"), resultSet.getInt("CHARGE_GROUP_CODE"), resultSet.getString("ADDRESS"),
                         resultSet.getString("CROSS_STREET"), resultSet.getDouble("LATITUDE"), resultSet.getDouble("LONGITUDE")));
-
             }
             connection.close();
             statement.close();

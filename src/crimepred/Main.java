@@ -7,14 +7,25 @@ Developed by:
  */
 package crimepred;
 
+import java.awt.List;
 import java.awt.image.BufferedImage;
+import static java.lang.Math.random;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
+import java.util.Set;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 public class Main extends javax.swing.JFrame {
+    Random rng;
     
     static mapPanel mp;
     int mpWidth;
@@ -33,6 +44,7 @@ public class Main extends javax.swing.JFrame {
     
     public Main() {
         initComponents();
+        rng = new Random();
         hour = 1;
         minute = 0;
         
@@ -49,6 +61,7 @@ public class Main extends javax.swing.JFrame {
                 minute = (int) mSpinner.getValue();
             }
         });
+                
         minLat = -118.0;
         maxLat = -120.0;
         minLong = 33.0;
@@ -292,7 +305,29 @@ public class Main extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void predButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_predButtonActionPerformed
-        // TODO add your handling code here:
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        String dateString = format.format( new Date()   );
+        
+        HashMap<String, Double> a = new HashMap<String,Double>();
+        Date da = new Date(); 
+        try {
+            da = format.parse("2017-12-31");
+        } catch (ParseException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        a.put("LONGITUDE", 0.0);
+        a.put("LATITUDE", 0.0);
+        HashMap<String, Double> b = new HashMap<String, Double>();
+        
+        Date db = jDateChooser1.getDate();
+        db.setHours(hour);
+        b.put("LONGITUDE", 0.0);
+        b.put("LATITUDE", 0.0);
+        
+        Record r = new Record(a, da);
+        Centroid c = new Centroid(b, db);
+        
+        System.out.println(findTimeDistance(c, r));
     }//GEN-LAST:event_predButtonActionPerformed
 
     public static void main(String args[]) {
@@ -330,53 +365,59 @@ public class Main extends javax.swing.JFrame {
         //Find in the database all the records that are within one year from date
     }
     
+    
+    
     public static void findCentroids(int n){
         //Find n centroids based on the year of records found in makeYearRecords()
     }
     
-    public static void assignClass(){
+    public void assignClass(Record record, int i){
         //Assign classes to all records found in makeYearRecords()
+        record.classNr = i;
     }
     
-    public static void makePredictions(){
+    public void makePredictions(Centroid c){
+        int classNr = c.classNr;
+        ArrayList<Double> weights = new ArrayList<Double>();
         
-    }
-    
-    public static double getEuclidianDistanceRecordCentroid(Record r, Centroid c){
-        double sum = 0;
-        
-        Map<String, Double> rmap = r.getFeat();
-        Map<String, Double> cmap = c.getMap();
-        for(String key : rmap.keySet()){
-            System.out.println(key);
-            Double r1 = rmap.get(key);
-            Double c1 = cmap.get(key);
-            
-            if (r1 != null && c1 != null){
-                sum += Math.pow(r1 - c1, 2);
+        for(Record record: yearRecords){
+            if (record.classNr == classNr){
+                //Find the "distance in time" to current date --> weight from 0 to 1
+                weights.add(findTimeDistance(c, record));
+                
+                //
             }
         }
-        
-        return Math.sqrt(sum);
     }
     
-    public static double getEuclidianDistanceRecords(Record r1, Record r2 ){
-        double sum = 0;
+    public double findTimeDistance(Centroid c, Record r){
+        double dist = 0.0;
+        Date cDate = c.date;
+        Date rDate = r.date;
         
-        Map<String, Double> r1map = r1.getFeat();
-        Map<String, Double> r2map = r2.getFeat();
-        for(String key : r1map.keySet()){
-            System.out.println(key);
-            Double r1num = r1map.get(key);
-            Double r2num = r2map.get(key);
-            
-            if (r1num != null && r2num != null){
-                sum += Math.pow(r1num - r2num, 2);
-            }
+        System.out.println(cDate);
+        System.out.println(rDate);
+        
+        long diffInMillies = Math.abs(cDate.getTime() - rDate.getTime());
+        long diffHours = TimeUnit.HOURS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+        
+        System.out.println("Difference in hours: " + diffHours);
+               
+        
+        dist = diffHours/(24*365.0);
+        if (dist > 1){
+            dist = 1;
         }
-        return Math.sqrt(sum);
+        double prob = 0;
+        if (diffHours < 24*365){
+            prob = 1 - Math.pow(dist, 0.6);
+        }
+        System.out.println(prob);
+        
+        return prob;
     }
     
+       
     
     public int[] coorToPx(double lati, double longi){
         int[] pix = new int[2];

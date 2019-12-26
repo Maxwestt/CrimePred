@@ -18,20 +18,24 @@ import java.util.ArrayList;
 public class DataOperations {
 
     public static void main(String[] args) {
-        //  insertData();
-        //  System.out.println(getData(new Date(System.currentTimeMillis())).toString());
+          insertData();
+        // System.out.println(getData(new Date(System.currentTimeMillis())).toString());
+        System.out.println(getCrimes(new Date(Long.parseLong("1451656725976"))).size());
 
     }
 
-    public static ArrayList<Crime> getData(Date date) {
+    public static ArrayList<Crime> getCrimes(Date date) {
 
         ArrayList<Crime> crimeList = new ArrayList<>();
         java.sql.Date begin = new java.sql.Date(date.getTime() - Long.parseLong("31536000000"));
-        String sql = "SELECT * From CRIMEDATA where ARREST_DATE  >= ?";
+        java.sql.Date end = new java.sql.Date(date.getTime() - Long.parseLong("86400000"));
+
+        String sql = "SELECT * From CRIMEDATA where ARREST_DATE  BETWEEN ? AND ?";
         try {
             Connection connection = DriverManager.getConnection("jdbc:derby://localhost:1527/LACrime");
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setDate(1, begin);
+            statement.setDate(2, end);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 crimeList.add(new Crime(resultSet.getDate("ARREST_DATE"), resultSet.getTime("TIME"),

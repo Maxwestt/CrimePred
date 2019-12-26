@@ -18,9 +18,8 @@ import java.util.ArrayList;
 public class DataOperations {
 
     public static void main(String[] args) {
-        //  insertData();
+      //  insertData();
         //  System.out.println(getData(new Date(System.currentTimeMillis())).toString());
-        getData(new Date(System.currentTimeMillis()));
 
     }
 

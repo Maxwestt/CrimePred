@@ -1,0 +1,82 @@
+Thu Dec 26 18:25:47 CST 2019 : Apache Derby Network Server 10.10.2.0 - (1582446) wurde gestartet und ist bereit, Verbindungen auf Port 1527 zu akzeptieren.
+----------------------------------------------------------------
+Thu Dec 26 18:25:47 CST 2019:
+Booten von Derby-Version The Apache Software Foundation - Apache Derby - 10.10.2.0 - (1582446): Instanz a816c00e-016f-41bd-9909-00001e1bac79
+für Datenbankverzeichnis C:\Users\Chris\Documents\NetBeansProjects\CrimePred\CrimeData mit Class Loader sun.misc.Launcher$AppClassLoader@1d44bcfa
+Geladen aus file:/C:/Program%20Files/glassfish-4.1/javadb/lib/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_181-b13
+user.dir=C:\Program Files\glassfish-4.1\javadb
+os.name=Windows 10
+os.arch=amd64
+os.version=10.0
+derby.system.home=C:\Users\Chris\Documents\NetBeansProjects\CrimePred
+Datenbank-Class Loader wurde gestartet - derby.database.classpath=''
+Thu Dec 26 18:28:14 CST 2019 Thread[DRDAConnThread_2,5,main] Cleanup action starting
+java.sql.SQLException: Datenbank 'LACrime' wurde nicht gefunden.
+	at org.apache.derby.impl.jdbc.SQLExceptionFactory40.getSQLException(Unknown Source)
+	at org.apache.derby.impl.jdbc.Util.newEmbedSQLException(Unknown Source)
+	at org.apache.derby.impl.jdbc.Util.newEmbedSQLException(Unknown Source)
+	at org.apache.derby.impl.jdbc.Util.generateCsSQLException(Unknown Source)
+	at org.apache.derby.impl.jdbc.EmbedConnection.newSQLException(Unknown Source)
+	at org.apache.derby.impl.jdbc.EmbedConnection.handleDBNotFound(Unknown Source)
+	at org.apache.derby.impl.jdbc.EmbedConnection.<init>(Unknown Source)
+	at org.apache.derby.impl.jdbc.EmbedConnection40.<init>(Unknown Source)
+	at org.apache.derby.jdbc.Driver40.getNewEmbedConnection(Unknown Source)
+	at org.apache.derby.jdbc.InternalDriver.connect(Unknown Source)
+	at org.apache.derby.jdbc.Driver20.connect(Unknown Source)
+	at org.apache.derby.jdbc.EmbeddedDriver.connect(Unknown Source)
+	at org.apache.derby.impl.drda.Database.makeConnection(Unknown Source)
+	at org.apache.derby.impl.drda.DRDAConnThread.getConnFromDatabaseName(Unknown Source)
+	at org.apache.derby.impl.drda.DRDAConnThread.verifyUserIdPassword(Unknown Source)
+	at org.apache.derby.impl.drda.DRDAConnThread.parseSECCHK(Unknown Source)
+	at org.apache.derby.impl.drda.DRDAConnThread.parseDRDAConnection(Unknown Source)
+	at org.apache.derby.impl.drda.DRDAConnThread.processCommands(Unknown Source)
+	at org.apache.derby.impl.drda.DRDAConnThread.run(Unknown Source)
+Caused by: java.sql.SQLException: Datenbank 'LACrime' wurde nicht gefunden.
+	at org.apache.derby.impl.jdbc.SQLExceptionFactory.getSQLException(Unknown Source)
+	at org.apache.derby.impl.jdbc.SQLExceptionFactory40.wrapArgsForTransportAcrossDRDA(Unknown Source)
+	... 19 more
+============= begin nested exception, level (1) ===========
+java.sql.SQLException: Datenbank 'LACrime' wurde nicht gefunden.
+	at org.apache.derby.impl.jdbc.SQLExceptionFactory.getSQLException(Unknown Source)
+	at org.apache.derby.impl.jdbc.SQLExceptionFactory40.wrapArgsForTransportAcrossDRDA(Unknown Source)
+	at org.apache.derby.impl.jdbc.SQLExceptionFactory40.getSQLException(Unknown Source)
+	at org.apache.derby.impl.jdbc.Util.newEmbedSQLException(Unknown Source)
+	at org.apache.derby.impl.jdbc.Util.newEmbedSQLException(Unknown Source)
+	at org.apache.derby.impl.jdbc.Util.generateCsSQLException(Unknown Source)
+	at org.apache.derby.impl.jdbc.EmbedConnection.newSQLException(Unknown Source)
+	at org.apache.derby.impl.jdbc.EmbedConnection.handleDBNotFound(Unknown Source)
+	at org.apache.derby.impl.jdbc.EmbedConnection.<init>(Unknown Source)
+	at org.apache.derby.impl.jdbc.EmbedConnection40.<init>(Unknown Source)
+	at org.apache.derby.jdbc.Driver40.getNewEmbedConnection(Unknown Source)
+	at org.apache.derby.jdbc.InternalDriver.connect(Unknown Source)
+	at org.apache.derby.jdbc.Driver20.connect(Unknown Source)
+	at org.apache.derby.jdbc.EmbeddedDriver.connect(Unknown Source)
+	at org.apache.derby.impl.drda.Database.makeConnection(Unknown Source)
+	at org.apache.derby.impl.drda.DRDAConnThread.getConnFromDatabaseName(Unknown Source)
+	at org.apache.derby.impl.drda.DRDAConnThread.verifyUserIdPassword(Unknown Source)
+	at org.apache.derby.impl.drda.DRDAConnThread.parseSECCHK(Unknown Source)
+	at org.apache.derby.impl.drda.DRDAConnThread.parseDRDAConnection(Unknown Source)
+	at org.apache.derby.impl.drda.DRDAConnThread.processCommands(Unknown Source)
+	at org.apache.derby.impl.drda.DRDAConnThread.run(Unknown Source)
+============= end nested exception, level (1) ===========
+Cleanup action completed
+Thu Dec 26 18:28:14 CST 2019 Thread[DRDAConnThread_2,5,main] (DATABASE = LACrime), (DRDAID = {2}), Datenbank 'LACrime' wurde nicht gefunden.
+----------------------------------------------------------------
+Thu Dec 26 18:29:50 CST 2019:
+Instanz a816c00e-016f-41bd-9909-00001e1bac79 im Datenbankverzeichnis C:\Users\Chris\Documents\NetBeansProjects\CrimePred\CrimeData mit Class Loader sun.misc.Launcher$AppClassLoader@1d44bcfa wird heruntergefahren
+Thu Dec 26 18:29:50 CST 2019 Thread[DRDAConnThread_2,5,main] (DATABASE = CrimeData), (DRDAID = {3}), Datenbank 'CrimeData' wird heruntergefahren.
+----------------------------------------------------------------
+Thu Dec 26 18:30:08 CST 2019:
+Booten von Derby-Version The Apache Software Foundation - Apache Derby - 10.10.2.0 - (1582446): Instanz e50d80a4-016f-41bd-9909-00001e1bac79
+für Datenbankverzeichnis C:\Users\Chris\Documents\NetBeansProjects\CrimePred\LACrime mit Class Loader sun.misc.Launcher$AppClassLoader@1d44bcfa
+Geladen aus file:/C:/Program%20Files/glassfish-4.1/javadb/lib/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_181-b13
+user.dir=C:\Program Files\glassfish-4.1\javadb
+os.name=Windows 10
+os.arch=amd64
+os.version=10.0
+derby.system.home=C:\Users\Chris\Documents\NetBeansProjects\CrimePred
+Datenbank-Class Loader wurde gestartet - derby.database.classpath=''

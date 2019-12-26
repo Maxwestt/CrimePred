@@ -18,24 +18,32 @@ import java.util.ArrayList;
 public class DataOperations {
 
     public static void main(String[] args) {
-          insertData();
+        //insertData();
         // System.out.println(getData(new Date(System.currentTimeMillis())).toString());
-        System.out.println(getCrimes(new Date(Long.parseLong("1451656725976"))).size());
-
     }
 
-    public static ArrayList<Crime> getCrimes(Date date) {
+    public static ArrayList<Crime> getCrimes(Date date, Boolean day) {
 
         ArrayList<Crime> crimeList = new ArrayList<>();
         java.sql.Date begin = new java.sql.Date(date.getTime() - Long.parseLong("31536000000"));
         java.sql.Date end = new java.sql.Date(date.getTime() - Long.parseLong("86400000"));
+        java.sql.Date dayDate = new java.sql.Date(date.getTime());
 
-        String sql = "SELECT * From CRIMEDATA where ARREST_DATE  BETWEEN ? AND ?";
+        String sql = "";
+        if (day == false) {
+            sql = "SELECT * From CRIMEDATA where ARREST_DATE BETWEEN ? AND ?";
+        } else {
+            sql = "SELECT * From CRIMEDATA where ARREST_DATE = ?";
+        }
         try {
             Connection connection = DriverManager.getConnection("jdbc:derby://localhost:1527/LACrime");
             PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setDate(1, begin);
-            statement.setDate(2, end);
+            if (day == false) {
+                statement.setDate(1, begin);
+                statement.setDate(2, end);
+            } else {
+                statement.setDate(1, dayDate);
+            }
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 crimeList.add(new Crime(resultSet.getDate("ARREST_DATE"), resultSet.getTime("TIME"),
@@ -106,6 +114,7 @@ public class DataOperations {
                     statement.executeUpdate();
                 }
             }
+
             connection.close();
             statement.close();
             lineReader.close();
